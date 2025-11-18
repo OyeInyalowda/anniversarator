@@ -1,1 +1,3 @@
 /.venv
+events.pickle
+.vscode/launch.json
