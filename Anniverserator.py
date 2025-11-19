@@ -42,6 +42,16 @@ def load(filename: str) -> list:
 
     return result
 
+def create_events_refactor(events: list) -> list :
+
+    # outer loop - while anotherEvent
+
+        # accept user input
+        
+        # inner loop - while invalid 
+
+    return events
+
 def create_events(events: list) -> list :
     """Create new events from user input and return a list of those events"""
 
@@ -166,8 +176,10 @@ if __name__ == "__main__":
 # done calculate time elapsed from date to current time
 # done save user provided event to file
 # done read user provided event from file
-# TODO create_event() does not handle leap years properly
-# TODO create_event does not handle string inputs for months
 # done calculate time until next anniversary
 # TODO functionality to delete events
 # TODO add error logging
+# TODO refactor create_events
+# TODO create_event() does not handle leap years properly
+# TODO create_event does not handle string inputs for months
+# TODO package project
