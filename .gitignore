@@ -2,3 +2,5 @@
 events.pickle
 .vscode/launch.json
 __pycache__/event.cpython-310.pyc
+logs/debug.log
+__pycache__/Event.cpython-312.pyc

@@ -1,5 +1,6 @@
 import argparse
 import pickle
+import logging
 
 from datetime import MAXYEAR
 from datetime import MINYEAR
@@ -15,15 +16,8 @@ Author: Mike Vance
 Version: 0.3
 """
 
-# done create an Event class which holds a title and date
-# done parse user provided dates
-# done calculate time elapsed from date to current time
-# done save user provided event to file
-# done read user provided event from file
-# TODO create_event() does not handle leap years properly
-# TODO create_event does not handle string inputs for months
-# done calculate time until next anniversary
-# todo functionality to delete events
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='logs/debug.log', encoding='utf-8', level=logging.INFO, format="%(asctime)s %(message)s")
 
 def save(events) -> bool:
     try:
@@ -33,7 +27,7 @@ def save(events) -> bool:
         print("\nSaving...")
         return True
     except Exception as ex:
-        print("Error while pickling object", ex)
+        logger.info(f"Error saving file: {ex}")
         return False
 
 def load(filename: str) -> list:
@@ -44,7 +38,7 @@ def load(filename: str) -> list:
         file.close()
         print("\nLoading...")
     except Exception as ex:
-        print("Error while unpickling object", ex)
+        logger.info(f"Error loading save file: {ex}")
 
     return result
 
@@ -104,7 +98,7 @@ def create_events(events: list) -> list :
         if input("Is this correct (y/n)? ") == 'y':
             correct = True
             events.append(Event(title, eventDate))
-
+    
             # ask for another event
             if(input("Would you like to add another event (y/n)? ") == 'y' ):
                 anotherEvent = True
@@ -116,17 +110,9 @@ def create_events(events: list) -> list :
     return events
 
 def main():
-    # check for existing events
-    filename = "events.pickle"
-    loadedEvents = load(filename)
+    FILENAME = "events.pickle"
 
-    if(not loadedEvents):
-        existingEvents = False
-        events = []
-    else:
-        existingEvents = True
-        events = loadedEvents
-
+    #------------ Handle Args ------------#
     # args and options
     description = "Anniverserator, never forget how long you've been married again!"
     parser = argparse.ArgumentParser(description)
@@ -140,22 +126,36 @@ def main():
     #parse args
     args = parser.parse_args()    
 
+
+    #------ Anniverserator Behavior ------#
+    # check for existing events
+    events = load(FILENAME)
+
+    # execute according to arguments
     if (args.New):
         events = create_events(events)
-        existingEvents = True
         save(events)
 
-    if(args.Print and existingEvents):
+    if(args.Print and events):
         for event in events: 
             event.print_title()
             event.print_elapsed_years()
             event.print_elapsed_days()
             event.print_next_occurrence()
-    elif(args.Print and not existingEvents):
+    elif(args.Print and not events):
         print("Uh oh :( No events to print")
         print("Try running Anniverserator again with the -n flag to add new events!")
         
 if __name__ == "__main__":
     main()
 
-
+# done create an Event class which holds a title and date
+# done parse user provided dates
+# done calculate time elapsed from date to current time
+# done save user provided event to file
+# done read user provided event from file
+# TODO create_event() does not handle leap years properly
+# TODO create_event does not handle string inputs for months
+# done calculate time until next anniversary
+# TODO functionality to delete events
+# TODO add error logging
