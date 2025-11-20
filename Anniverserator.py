@@ -42,92 +42,67 @@ def load(filename: str) -> list:
 
     return result
 
-def create_events_refactor(events: list) -> list :
+def create_events(events: list) -> list :
 
     # outer loop - while anotherEvent
+    anotherEvent = True
+    while(anotherEvent):
+        newEvent = Event()
 
         # accept user input
-        
-        # inner loop - while invalid 
-
-    return events
-
-def create_events(events: list) -> list :
-    """Create new events from user input and return a list of those events"""
-
-    print("**** Create New Anniverserator Event ****")
-    print("*   Valid inputs:                       *")                    
-    print("*       Title: any                      *")
-    print("*       Year: 0 < Year <= 9999          *")
-    print("*       Month: 0 < Month <= 12          *")
-    print("*       Day: 0 < Day <= # days in month *")
-    print("*****************************************")
-
-    correct = False
-    anotherEvent = False
-
-    # user input loop
-    while(anotherEvent or not correct):
-        title = ""
-        year = -69
-        month = -6
-        day = -9
-
-        #get title
         title = input("Event title? ")
-
-        # get year
         yearStr = input("Event year? ")
-        try:
-            year = int(yearStr)
-        except Exception as ex:
-            year = -1
-
-        while year < MINYEAR or year > MAXYEAR:
-            yearStr = input(f"Invalid year. Please enter a value between {MINYEAR} and {MAXYEAR}: ")
-            year = int(yearStr)
-        
-        # get month
         monthStr = input("Event month (1 - 12)? ")
-        try:
-            month = int(monthStr)
-        except Exception as ex:
-            month = -1
-
-        while month < 1 or month > 12:
-            monthStr = input(f"Invalid month. Please enter a value between 1 and 12: ")
-            month = int(monthStr)
-
-        # get month
         dayStr = input("Event day? ")
-        try:
-            day = int(dayStr)
-        except Exception as ex:
-            year = -1
 
+        # inner loop - while not valid
+        year = 0
+        month = 0
+        day = 0
         valid = False
-        while not valid:
-            try:
-                eventDate = date(year, month, day)
-                valid = True
-            except:
+
+        while(not valid):
+            if(newEvent.check_year(yearStr) == False):
+                logger.info(f"Error - Invalid year: {yearStr}")
+                yearStr = input(f"Invalid year. Please enter a value between {MINYEAR} and {MAXYEAR}: ")
+            elif(not year):
+                year = int(yearStr)
+
+            if(newEvent.check_month(monthStr) == False):
+                logger.info(f"Error - Invalid month: {monthStr}")
+                monthStr = input(f"Invalid month. Please enter a value between 1 and 12: ")
+            elif(not month):
+                month = int(monthStr)
+            
+            if(newEvent.check_day(dayStr) == False):
+                logger.info(f"Error - Invalid day: {dayStr}")
                 dayStr = input(f"Invalid day. Please enter a value between in range for the given month: ")
+            elif(not day):
                 day = int(dayStr)
 
-        # ask if correct and add to list if so
+            # check whole date for validity
+            if(year and month and day):
+                if(newEvent.check_date(year, month, day)):
+                    eventDate = date(year, month, day)
+                    valid = True
+                else:
+                    logger.info(f"Error - Invalid day: {dayStr}")
+                    dayStr = input(f"Invalid day. Please enter a value between in range for the given month: ")
+                    day = 0
+
+        # ask if correct and for another event
         print(f"\nEvent Title: {title} | Event Date: {eventDate}")
-         
-        if input("Is this correct (y/n)? ") == 'y':
-            correct = True
-            events.append(Event(title, eventDate))
-    
+        if(input("Is this correct (y/n)? ") == 'y'):
+            newEvent = Event(title, eventDate)
+            events.append(newEvent)
+            
             # ask for another event
             if(input("Would you like to add another event (y/n)? ") == 'y' ):
                 anotherEvent = True
             else:
                 anotherEvent = False
         else:
-            correct = False
+            anotherEvent = True
 
     return events
 
@@ -154,7 +129,7 @@ def main():
     events = load(FILENAME)
 
     # execute according to arguments
-    if (args.New):
+    if(args.New):
         events = create_events(events)
         save(events)
 
@@ -178,8 +153,8 @@ if __name__ == "__main__":
 # done read user provided event from file
 # done calculate time until next anniversary
 # TODO functionality to delete events
-# TODO add error logging
-# TODO refactor create_events
-# TODO create_event() does not handle leap years properly
-# TODO create_event does not handle string inputs for months
+# done add error logging
+# done refactor create_events
+# done create_event() does not handle leap years properly
+# done create_event does not handle string inputs for months
 # TODO package project

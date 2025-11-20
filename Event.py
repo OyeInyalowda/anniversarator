@@ -1,4 +1,6 @@
 from datetime import date
+from datetime import MAXYEAR
+from datetime import MINYEAR
 import math
 
 class Event:
@@ -52,4 +54,51 @@ class Event:
 
         #print results
         print(f"{self.eventName} occurs next on {futureDate} in {daysUntil.days} day(s)")
+
+
+
+
+    def check_year(self, yearStr: str) -> bool:
+        """checks if provided year is an integer in valid range"""
+        try:
+            year = int(yearStr)
+        except:
+            return False
+        
+        if(year < MINYEAR or year > MAXYEAR):
+            return False
+        else:
+            return True
+
+    def check_month(self, monthStr: str) -> bool:
+        """checks if provided month is an integer in valid range"""
+
+        try:
+            month = int(monthStr)
+        except:
+            return False
+        
+        if(month < 1 or month > 12):
+            return False
+        else:
+            return True
+
+    def check_day(self, dayStr: str) -> bool:
+        """only checks if provided day is an integer"""
+        try:
+            day = int(dayStr)
+        except:
+            return False
+        
+        if(day <= 0 or day > 31):
+            return False
+        else:
+            return True
+
+    def check_date(self, year: int, month: int, day: int):
+        try:
+            eventDate = date(year, month, day)
+            return True
+        except:
+            return False  
 #---------- End Event Class ----------#
