@@ -13,7 +13,7 @@ Anniverserator, never forget how long you've been married again!
 Anniverserator is a small python program that will hopefully one day be a small command line utility for persistent tracking of important dates. 
 
 Author: Mike Vance
-Version: 0.3
+Version: 0.4
 """
 
 logger = logging.getLogger(__name__)
