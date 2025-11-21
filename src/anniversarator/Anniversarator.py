@@ -5,7 +5,7 @@ import logging
 from datetime import MAXYEAR
 from datetime import MINYEAR
 from datetime import date
-from Event import Event
+from anniversarator.Event import Event
 
 """
 Anniversarator, never forget how long you've been married again!
@@ -13,13 +13,14 @@ Anniversarator, never forget how long you've been married again!
 Anniversarator is a small python program that will hopefully one day be a small command line utility for persistent tracking of important dates. 
 
 Author: Mike Vance
-Version: 0.4
 """
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='logs/debug.log', encoding='utf-8', level=logging.INFO, format="%(asctime)s %(message)s")
 
 def save(events) -> bool:
+    """Save the given event using the pickle module."""
+
     try:
         with open("events.pickle", "wb") as file:
             pickle.dump(events, file, protocol=pickle.HIGHEST_PROTOCOL)
@@ -31,6 +32,8 @@ def save(events) -> bool:
         return False
 
 def load(filename: str) -> list:
+    """Load event(s) from the given pickle filename"""
+
     result = [] 
     try:
         with open(filename, "rb") as file:
@@ -43,6 +46,7 @@ def load(filename: str) -> list:
     return result
 
 def create_events(events: list) -> list :
+    """Create a list of events from user input."""
 
     print("**** Create New Anniversarator Event ****")
     print("*   Valid inputs:                       *")                    

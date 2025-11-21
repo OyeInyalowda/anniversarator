@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "anniversarator"
+version = "0.5"
+dependencies = []
+authors = [
+    { name = "Mike Vance", email = "msvance18@gmail.com" }
+]
+description = "Anniversarator, never forget how long you've been married again!"
+license = "MIT"
+
+[project.scripts]
+anniversarator = "anniversarator.Anniversarator:main"
