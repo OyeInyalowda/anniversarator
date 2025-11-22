@@ -14,11 +14,12 @@ Anniversarator is a simple Python command-line utility for persistent tracking o
 
 ## Installation
 
-Install the package using pip in the src/anniversarator directory:
+Install the package using pipx in the anniversarator directory:
 
 ```bash
-pip install .
+pipx install .
 ```
+Note: Once the package is installed the downloaded folder can be deleted
 
 ## Usage
 
