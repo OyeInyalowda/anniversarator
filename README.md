@@ -70,7 +70,7 @@ Wedding occurs next on 2025-06-15 in 152 day(s)
 ```
 ## File Storage
 
-Events are stored in `saves/events.pickle` using Python's pickle module. Debug logs are written to `logs/debug.log`.
+Events are stored in `/Home/.anniversarator/saves/events.pickle` using Python's pickle module. Debug logs are written to `/Home/.anniversarator/logs/debug.log`.
 
 ## Requirements
 
