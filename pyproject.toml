@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "anniversarator"
-version = "0.5"
+version = "1.0"
 dependencies = []
 authors = [
     { name = "Mike Vance", email = "msvance18@gmail.com" }
