@@ -2,26 +2,27 @@ import argparse
 import pickle
 import logging
 
+from datetime import date
 from datetime import MAXYEAR
 from datetime import MINYEAR
-from datetime import date
-from Event import Event
+from anniversarator.Event import Event
 
 """
 Anniversarator, never forget how long you've been married again!
 
-Anniversarator is a small python program that will hopefully one day be a small command line utility for persistent tracking of important dates. 
+Anniversarator is a small python command line utility for persistent tracking of important dates. 
 
 Author: Mike Vance
-Version: 0.4
 """
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='logs/debug.log', encoding='utf-8', level=logging.INFO, format="%(asctime)s %(message)s")
 
-def save(events) -> bool:
+def __save(events: dict[str, Event], filename: str) -> bool:
+    """Save the given event using the pickle module."""
+
     try:
-        with open("events.pickle", "wb") as file:
+        with open(filename, "wb") as file:
             pickle.dump(events, file, protocol=pickle.HIGHEST_PROTOCOL)
         file.close()
         print("\nSaving...")
@@ -30,8 +31,10 @@ def save(events) -> bool:
         logger.info(f"Error saving file: {ex}")
         return False
 
-def load(filename: str) -> list:
-    result = [] 
+def __load(filename: str) -> dict[str, Event]:
+    """Load event(s) from the given pickle filename"""
+
+    result = {} 
     try:
         with open(filename, "rb") as file:
             result = pickle.load(file)
@@ -42,7 +45,16 @@ def load(filename: str) -> list:
 
     return result
 
-def create_events(events: list) -> list :
+def create_events(events: dict[str, Event]) -> dict[str, Event]:
+    """Create a list of events from user input."""
+
+    print("**** Create New Anniversarator Event ****")
+    print("*   Valid inputs:                       *")                    
+    print("*       Title: any                      *")
+    print("*       Year: 0 < Year <= 9999          *")
+    print("*       Month: 0 < Month <= 12          *")
+    print("*       Day: 0 < Day <= # days in month *")
+    print("*****************************************")
 
     # outer loop - while anotherEvent
     anotherEvent = True
@@ -94,52 +106,92 @@ def create_events(events: list) -> list :
         print(f"\nEvent Title: {title} | Event Date: {eventDate}")
         if(input("Is this correct (y/n)? ") == 'y'):
             newEvent = Event(title, eventDate)
-            events.append(newEvent)
+            events.update({title: newEvent})
             
             # ask for another event
             if(input("Would you like to add another event (y/n)? ") == 'y' ):
                 anotherEvent = True
             else:
                 anotherEvent = False
+                break
         else:
             anotherEvent = True
 
     return events
 
+def __delete_events(events: dict[str, Event]) -> dict[str, Event]:
+    """Delete events according to user input."""
+
+    anotherEvent = True
+    titles = events.keys()
+
+    while(anotherEvent):
+
+        # check if there are any events
+        if(events == {}):
+            print("Nothing to delete!")
+            break
+        
+        # print events available to delete
+        print("Events: ")
+        for title in titles:
+            print(f"  {title}")
+
+        # attempt to remove user requested event
+        target = input("Enter the title of the event you would like to delete. ")
+        if(titles.__contains__(target)):
+            events.pop(target)
+            print(f"Removing {target}")
+        else:
+            print("Hmm, that event doesn't seem to be here.")
+
+        # prompt user to remove another event
+        if((input("Would you like to delete another event (y/n)? ")) == "y"):
+            anotherEvent = True
+        else:
+            anotherEvent = False
+            break
+    
+    return events
+
+
 def main():
-    FILENAME = "events.pickle"
+    FILENAME = "saves/events.pickle"
 
     #------------ Handle Args ------------#
     # args and options
     description = "Anniversarator, never forget how long you've been married again!"
     parser = argparse.ArgumentParser(description)
-    parser.add_argument("-n", "--New",
+    parser.add_argument("-n", "--new",
                         action = "store_true", 
                         help  = "Create new events.")
-    parser.add_argument("-p", "--Print",
+    parser.add_argument("-p", "--print",
                         action = "store_true", 
-                        help  = "Print event facts")
+                        help  = "Print all events")
+    parser.add_argument("-d", "--delete",
+                        action = "store_true", 
+                        help  = "Delete events") # TODO rm
 
     #parse args
     args = parser.parse_args()    
 
-
     #------ Anniversarator Behavior ------#
     # check for existing events
-    events = load(FILENAME)
+    events = __load(FILENAME)
+
+    if(args.delete):
+        __delete_events(events)
+        __save(events, FILENAME)
 
     # execute according to arguments
-    if(args.New):
+    if(args.new):
         events = create_events(events)
-        save(events)
+        __save(events, FILENAME)
 
-    if(args.Print and events):
+    if(args.print and events):
         for event in events: 
-            event.print_title()
-            event.print_elapsed_years()
-            event.print_elapsed_days()
-            event.print_next_occurrence()
-    elif(args.Print and not events):
+            events[event].print_event()
+    elif(args.print and not events):
         print("Uh oh :( No events to print")
         print("Try running Anniversarator again with the -n flag to add new events!")
           
@@ -152,9 +204,11 @@ if __name__ == "__main__":
 # done save user provided event to file
 # done read user provided event from file
 # done calculate time until next anniversary
-# TODO functionality to delete events
+# done functionality to delete events
 # done add error logging
 # done refactor create_events
 # done create_event() does not handle leap years properly
 # done create_event does not handle string inputs for months
-# TODO package project
+# done package project
+# TODO add next upcoming event function
+# TODO add delete all function

@@ -1,0 +1,1 @@
+# anniversarator/__init__.py
