@@ -11,7 +11,6 @@ Anniversarator is a simple Python command-line utility for persistent tracking o
 -  Calculate days until next occurrence
 -  Persistent storage using pickle
 -  Delete events you no longer need
--  Detailed logging for debugging
 
 ## Installation
 
