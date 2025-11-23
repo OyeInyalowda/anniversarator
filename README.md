@@ -19,9 +19,11 @@ Install the package using pipx in the anniversarator directory:
 ```bash
 pipx install .
 ```
-Note: Once the package is installed the downloaded folder can be deleted
+Once the package is installed the downloaded folder can be deleted
 
 Instructions on how to install pipx can be found [here](https://pipx.pypa.io/latest/installation/)
+
+Note: pipx requires pip. Installation instructions for pip can be found [here](https://pip.pypa.io/en/stable/installation/)
 
 ## Usage
 
@@ -53,22 +55,37 @@ anniversarator -n -p
 ```bash
 $ anniversarator -n
 **** Create New Anniversarator Event ****
-Event title? Wedding
-Event year? 2020
-Event month (1 - 12)? 6
-Event day? 15
-Event Title: Wedding | Event Date: 2020-06-15
+*   Valid inputs:                       *
+*       Title: any                      *
+*       Year: 0 < Year <= 9999          *
+*       Month: 0 < Month <= 12          *
+*       Day: 0 < Day <= days in month   *
+*****************************************
+Event title? An Anniversary 
+Event year? 2013
+Event month (1 - 12)? 11
+Event day? 12
+
+Event Title: An Anniversary | Event Date: 2013-11-12
 Is this correct (y/n)? y
+Would you like to add another event (y/n)? n
 ```
 
 **View all events:**
 ```bash
 $ anniversarator -p
 
-********** Wedding **********
-4 year(s) and 213 day(s) since 2020-06-15
-1462 total day(s) since 2020-06-15
-Wedding occurs next on 2025-06-15 in 152 day(s)
+**************  An Anniversary - 2013-11-12  **************
+* Next Occurrence: 2026-11-12, in 354 day(s)              *
+* Time Elapsed: 12 year(s) and 14 day(s)                  *
+* Day(s) Elapsed: 4394 day(s)                             *
+***********************************************************
+
+**************  Another Event - 2018-06-23  ***************
+* Next Occurrence: 2026-06-23, in 212 day(s)              *
+* Time Elapsed: 7 year(s) and 155 day(s)                  *
+* Day(s) Elapsed: 2710 day(s)                             *
+***********************************************************
 ```
 ## File Storage
 
