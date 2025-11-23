@@ -14,16 +14,38 @@ Anniversarator is a simple Python command-line utility for persistent tracking o
 
 ## Installation
 
-Install the package using pipx in the anniversarator directory:
+Note: For Anniversarator to function as a command line utility it must be installed using pipx. The following instructions assume you have both pip and pipx installed. If you do not, install instructions for both can be found here: [pip](https://pip.pypa.io/en/stable/installation/) | [pipx](https://pipx.pypa.io/latest/installation/)
 
+- Download the latest Anniversarator release and extract the contents
+- Enter the Anniversarator folder (wherever you extracted it)
+    - Linux Example:
+    ```bash
+    cd path/to/anniversarator-versionName
+    ```
+
+    - Windows: Example
+    ```ps
+    cd C:\path\to\anniversarator-versionName
+    ```
+
+___
+
+```bash
+    | This is where you should be
+.   v     
+└── anniversarator-versionName
+    ├── License
+    ├── pyproject.toml
+    ├── README.md
+    └── src
+```
+
+- From inside the aforementioned directory install the package using pipx
 ```bash
 pipx install .
 ```
-Once the package is installed the downloaded folder can be deleted
-
-Instructions on how to install pipx can be found [here](https://pipx.pypa.io/latest/installation/)
-
-Note: pipx requires pip. Installation instructions for pip can be found [here](https://pip.pypa.io/en/stable/installation/)
+- Once the package is installed the extracted folder and zip file can be deleted
+- Enjoy!
 
 ## Usage
 
@@ -94,7 +116,7 @@ Events are stored in `/Home/.anniversarator/saves/events.pickle` using Python's 
 ## Requirements
 
 - Python 3.7+
-- No external dependencies
+- pip and pipx
 
 ## Author
 
