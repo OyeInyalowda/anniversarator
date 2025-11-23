@@ -33,7 +33,7 @@ def __save(events: dict[str, Event], filename: str) -> bool:
         with open(filename, "wb") as file:
             pickle.dump(events, file, protocol=pickle.HIGHEST_PROTOCOL)
         file.close()
-        print("\nSaving...")
+        print("\nSaving...\n")
         return True
     except Exception as ex:
         logger.info(f"Error saving file: {ex}")
@@ -47,7 +47,6 @@ def __load(filename: str) -> dict[str, Event]:
         with open(filename, "rb") as file:
             result = pickle.load(file)
         file.close()
-        print("\nLoading...")
     except Exception as ex:
         logger.info(f"Error loading save file: {ex}")
 
@@ -71,6 +70,10 @@ def create_events(events: dict[str, Event]) -> dict[str, Event]:
 
         # accept user input
         title = input("Event title? ")
+        if(events.keys().__contains__(title)):
+            if(input("An event with that title already exists. Would you like to overwrite it (y/n)? ") != "y"):
+                continue
+
         yearStr = input("Event year? ")
         monthStr = input("Event month (1 - 12)? ")
         dayStr = input("Event day? ")
@@ -188,14 +191,16 @@ def main():
     # check for existing events
     events = __load(str(saveFile))
 
-    if(args.delete):
-        __delete_events(events)
-        __save(events, str(saveFile))
-
     # execute according to arguments
     if(args.new):
         events = create_events(events)
         __save(events, str(saveFile))
+        events = __load(str(saveFile)) # reload after modification
+
+    if(args.delete):
+        __delete_events(events)
+        __save(events, str(saveFile))
+        events = __load(str(saveFile)) # reload after modification
 
     if((args.print and events)):
         for event in events: 
@@ -221,3 +226,5 @@ if __name__ == "__main__":
 # done package project
 # TODO add next upcoming event function
 # TODO add delete all function
+# TODO better format printed output
+# TODO default behavior with not flags - print
