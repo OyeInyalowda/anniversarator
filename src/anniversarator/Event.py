@@ -49,6 +49,7 @@ class Event:
         # calculate
         elapsedDays = date.today() - self.eventDate
         field = f"* {elapsedDays.days} total day(s) since {self.eventDate}"
+        field = f"* Day(s) Elapsed: {elapsedDays.days} day(s) "
 
         # print results
         totalEdgeLen = MAX_SPACE.__len__() - field.__len__()
@@ -62,12 +63,11 @@ class Event:
         elapsedDays = date.today() - self.eventDate
         elapsedYears = elapsedDays.days / 365
         remainder = elapsedDays.days % 365
-        field = f"* {math.floor(elapsedYears)} year(s) since {self.eventDate} "
+        field = f"* Time Elapsed: {math.floor(elapsedYears)} year(s) "
 
         # print results
         if(remainder > 0):
-            field = f"* {math.floor(elapsedYears)} year(s) and {remainder} day(s) since {self.eventDate}"
-        
+            field = f"* Time Elapsed: {math.floor(elapsedYears)} year(s) and {remainder} day(s) "
 
         totalEdgeLen = MAX_SPACE.__len__() - field.__len__()
         edge = MAX_SPACE[-totalEdgeLen - 1:]

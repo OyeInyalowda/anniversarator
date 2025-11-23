@@ -231,6 +231,7 @@ if __name__ == "__main__":
 # done package project
 # TODO add next upcoming event function
 # TODO add delete all function
-# TODO better format printed output
-# TODO default behavior with not flags - print
-# TODO restrict title length
+# TODO sort events by number of days until next occurrence
+# done better format printed output
+# done restrict title length
+# TODO add proper getters/setters to Event.py
