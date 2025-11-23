@@ -21,6 +21,8 @@ pipx install .
 ```
 Note: Once the package is installed the downloaded folder can be deleted
 
+Instructions on how to install pipx can be found [here](https://pipx.pypa.io/latest/installation/)
+
 ## Usage
 
 Run Anniversarator with the following commands:
@@ -45,7 +47,7 @@ anniversarator -n -p
 - `-p, --print` - Print all events
 - `-d, --delete` - Delete events
 
-## Examples
+## Usage Examples
 
 **Create a new anniversary:**
 ```bash

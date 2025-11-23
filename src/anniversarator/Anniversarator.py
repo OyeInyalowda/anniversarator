@@ -179,7 +179,7 @@ def main():
                         help  = "Print all events")
     parser.add_argument("-d", "--delete",
                         action = "store_true", 
-                        help  = "Delete events") # TODO rm
+                        help  = "Delete events")
 
     #parse args
     args = parser.parse_args()    
@@ -197,7 +197,7 @@ def main():
         events = create_events(events)
         __save(events, str(saveFile))
 
-    if(args.print and events):
+    if((args.print and events)):
         for event in events: 
             events[event].print_event()
     elif(args.print and not events):
