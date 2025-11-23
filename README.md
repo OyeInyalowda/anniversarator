@@ -23,7 +23,7 @@ Note: For Anniversarator to function as a command line utility it must be instal
     cd path/to/anniversarator-versionName
     ```
 
-    - Windows: Example
+    - Windows Example:
     ```ps
     cd C:\path\to\anniversarator-versionName
     ```
