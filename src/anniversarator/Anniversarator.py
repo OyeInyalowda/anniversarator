@@ -69,8 +69,8 @@ def create_events(events: dict[str, Event]) -> dict[str, Event]:
         newEvent = Event()
 
         # accept user input
-        title = input("Event title? ")
-        if(events.keys().__contains__(title)):
+        titleStr = input("Event title? ")
+        if(events.keys().__contains__(titleStr)):
             if(input("An event with that title already exists. Would you like to overwrite it (y/n)? ") != "y"):
                 continue
 
@@ -79,12 +79,17 @@ def create_events(events: dict[str, Event]) -> dict[str, Event]:
         dayStr = input("Event day? ")
 
         # inner loop - while not valid
-        year = 0
-        month = 0
-        day = 0
+        year, month, day = 0, 0, 0
+        title = ""
         valid = False
 
         while(not valid):
+            if(newEvent.check_title(titleStr) == False):
+                logger.info(f"Error - Invalid title: {titleStr}")
+                titleStr = input(f"Invalid title. Please enter a value 1 and 38 characters long: ")
+            elif(not title):
+                title = titleStr
+
             if(newEvent.check_year(yearStr) == False):
                 logger.info(f"Error - Invalid year: {yearStr}")
                 yearStr = input(f"Invalid year. Please enter a value between {MINYEAR} and {MAXYEAR}: ")
@@ -104,7 +109,7 @@ def create_events(events: dict[str, Event]) -> dict[str, Event]:
                 day = int(dayStr)
 
             # check whole date for validity
-            if(year and month and day):
+            if(year and month and day and title):
                 if(newEvent.check_date(year, month, day)):
                     eventDate = date(year, month, day)
                     valid = True
@@ -228,3 +233,4 @@ if __name__ == "__main__":
 # TODO add delete all function
 # TODO better format printed output
 # TODO default behavior with not flags - print
+# TODO restrict title length
